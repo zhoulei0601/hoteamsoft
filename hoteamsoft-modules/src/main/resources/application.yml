@@ -1,0 +1,39 @@
+server:
+  port: 8080
+
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  datasource:
+    dynamic:
+      primary: master
+      strict: false
+      datasource:
+        master:
+          url: jdbc:mysql://localhost:3306/hoteamsoft?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT&allowPublicKeyRetrieval=true
+          username: root
+          password: root
+          driver-class-name: com.mysql.cj.jdbc.Driver
+        slave:
+          url: jdbc:mysql://localhost:3306/zhoudb?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT&allowPublicKeyRetrieval=true
+          username: root
+          password: root
+          driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+mybatis-plus:
+  mapper-locations: classpath*:com/hoteamsoft/**/mapping/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true
+    lazy-loading-enabled: true
+    multiple-result-sets-enabled: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    banner: false
+    db-config:
+      id-type: assign_id
+      table-underline: true
+      logic-delete-field: delFlag
+      logic-delete-value: 1
+      logic-not-delete-value: 0

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoteamsoft.modules.project.mapper.ProjectGanttMapper">
+
+    <resultMap type="com.hoteamsoft.modules.project.entity.ProjectGantt" id="ProjectGanttMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="pid" column="pid" jdbcType="INTEGER"/>
+        <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+        <result property="finishTime" column="finish_time" jdbcType="TIMESTAMP"/>
+        <result property="duration" column="duration" jdbcType="INTEGER"/>
+        <result property="delFlag" column="del_flag" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="createUser" column="create_user" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="updateUser" column="update_user" jdbcType="VARCHAR"/>
+        <result property="projectName" column="project_name" jdbcType="VARCHAR"/>
+        <result property="projectState" column="project_state" jdbcType="VARCHAR"/>
+        <result property="projectCode" column="project_code" jdbcType="VARCHAR"/>
+        <result property="projectType" column="project_type" jdbcType="VARCHAR"/>
+        <result property="projectLevel" column="project_level" jdbcType="VARCHAR"/>
+        <result property="processState" column="process_state" jdbcType="VARCHAR"/>
+        <result property="planProgressPercent" column="plan_progress_percent" jdbcType="VARCHAR"/>
+        <result property="realProgressPercent" column="real_progress_percent" jdbcType="VARCHAR"/>
+        <result property="managerId" column="manager_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hoteamsoft.pj_project_gantt(pid, start_time, finish_time, duration, del_flag, create_time,
+        create_user, update_time, update_user, project_name, project_state, project_code, project_type, project_level,
+        process_state, plan_progress_percent, real_progress_percent, manager_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.pid}, #{entity.startTime}, #{entity.finishTime}, #{entity.duration}, #{entity.delFlag},
+            #{entity.createTime}, #{entity.createUser}, #{entity.updateTime}, #{entity.updateUser},
+            #{entity.projectName}, #{entity.projectState}, #{entity.projectCode}, #{entity.projectType},
+            #{entity.projectLevel}, #{entity.processState}, #{entity.planProgressPercent},
+            #{entity.realProgressPercent}, #{entity.managerId})
+        </foreach>
+    </insert>
+    <!-- 批量插入或按主键更新 -->
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hoteamsoft.pj_project_gantt(pid, start_time, finish_time, duration, del_flag, create_time,
+        create_user, update_time, update_user, project_name, project_state, project_code, project_type, project_level,
+        process_state, plan_progress_percent, real_progress_percent, manager_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.pid}, #{entity.startTime}, #{entity.finishTime}, #{entity.duration}, #{entity.delFlag},
+            #{entity.createTime}, #{entity.createUser}, #{entity.updateTime}, #{entity.updateUser},
+            #{entity.projectName}, #{entity.projectState}, #{entity.projectCode}, #{entity.projectType},
+            #{entity.projectLevel}, #{entity.processState}, #{entity.planProgressPercent},
+            #{entity.realProgressPercent}, #{entity.managerId})
+        </foreach>
+        on duplicate key update
+        pid = values(pid) , start_time = values(start_time) , finish_time = values(finish_time) , duration =
+        values(duration) , del_flag = values(del_flag) , create_time = values(create_time) , create_user =
+        values(create_user) , update_time = values(update_time) , update_user = values(update_user) , project_name =
+        values(project_name) , project_state = values(project_state) , project_code = values(project_code) ,
+        project_type = values(project_type) , project_level = values(project_level) , process_state =
+        values(process_state) , plan_progress_percent = values(plan_progress_percent) , real_progress_percent =
+        values(real_progress_percent) , manager_id = values(manager_id)
+    </insert>
+
+</mapper>
+
